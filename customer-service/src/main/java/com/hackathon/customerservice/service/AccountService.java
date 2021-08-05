@@ -4,8 +4,10 @@
 package com.hackathon.customerservice.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.hackathon.customerservice.dto.AccountDTO;
+import com.hackathon.customerservice.dto.PortfolioDetails;
 
 /**
  * 
@@ -21,4 +23,11 @@ public interface AccountService {
 	 * @return
 	 */
 	public List<AccountDTO> getAccounts(String customerId);
+	
+	/**
+	 * Returns portfolio details for a provided account.
+	 * @param accountNumber
+	 * @return
+	 */
+	public PortfolioDetails getPortfolio(Optional<String> accountNumber);
 }

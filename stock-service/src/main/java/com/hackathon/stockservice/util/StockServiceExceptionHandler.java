@@ -14,6 +14,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RequestMapping(produces = "application/vnd.error+json")
 public class StockServiceExceptionHandler extends ResponseEntityExceptionHandler {
 
+	/**
+	 * Exception handler if the stock code passed is not present.
+	 * @param e
+	 * @return
+	 */
     @ExceptionHandler(StockNotFoundException.class)
     protected ResponseEntity<ErrorDto> handleWhileInvalidDigitCode(StockNotFoundException e){
         return new ResponseEntity<>(ErrorDto
@@ -22,5 +27,4 @@ public class StockServiceExceptionHandler extends ResponseEntityExceptionHandler
                 .errorMessage(e.getMessage())
                 .build(), HttpStatus.BAD_REQUEST);
     }
-
 }
