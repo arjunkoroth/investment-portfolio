@@ -29,4 +29,10 @@ public class UserDetail {
     @OneToOne
     private UserRole userRole;
 
+    public UserDetail(long id, String customerId, String password, UserRole userRole) {
+        this.id = id;
+        this.customerId = customerId;
+        this.password = password;
+        this.userRole = userRole;
+    }
 }

@@ -29,4 +29,17 @@ public class InvestmentAccount  {
 
 	@ManyToOne()
 	private UserDetail userDetail;
+
+	public InvestmentAccount(long id, String accountNumber, Double balance) {
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.balance = balance;
+	}
+
+	public InvestmentAccount(long id, String accountNumber, Double balance, UserDetail userDetail) {
+		this.id = id;
+		this.accountNumber = accountNumber;
+		this.balance = balance;
+		this.userDetail = userDetail;
+	}
 }

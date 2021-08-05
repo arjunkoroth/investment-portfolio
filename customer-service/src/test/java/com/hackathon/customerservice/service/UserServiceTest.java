@@ -3,22 +3,18 @@ package com.hackathon.customerservice.service;
 import com.hackathon.customerservice.dto.AccountDTO;
 import com.hackathon.customerservice.entity.InvestmentAccount;
 import com.hackathon.customerservice.entity.UserDetail;
+import com.hackathon.customerservice.entity.UserRole;
+import com.hackathon.customerservice.exceptions.NoInvestmentAccountFoundException;
 import com.hackathon.customerservice.repository.InvestmentAccountRepository;
 import com.hackathon.customerservice.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
+
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +32,7 @@ public class UserServiceTest {
     private UserRepository userRepository;
 
     @Mock
-    private InvestmentAccountRepository dao;
+    private InvestmentAccountRepository investmentAccountRepository;
 
 
     @Test
@@ -44,17 +40,28 @@ public class UserServiceTest {
 
     }
 
+
     @Test
-    public void testgetInvestmentAccounts() {
-        when(userRepository.findById(any(Long.class)))
-                .thenReturn(Optional.of(new UserDetail()));
-        when(bookBorrowerRepository.findAllByUserDetail(any(UserDetail.class)))
-                .thenReturn(Collections.singletonList(new BookBorrower()));
-        BorrowBookResponseDto response = userService.borrowBooks(new BorrowBookRequestDto(), 1L);
-        assertNotNull(response);
-        assertEquals(response.getStatusCode(),200);
+    public void testInvestmentAccountsSuccess() {
+        List<InvestmentAccount> investmentAccounts = new ArrayList<>();
+        investmentAccounts.add(new InvestmentAccount(1, "Monesh123", 8000.0,
+                new UserDetail(2,"hackethoncustomer","Monesh",new UserRole(1,"ROLE_ADMIN"))));
+        when(userRepository.findByCustomerId(any(String.class)))
+                .thenReturn(Optional.of(new UserDetail(2,"hackethoncustomer","Monesh",new UserRole(1,"ROLE_ADMIN"))));
+        when(investmentAccountRepository.findAllByUserDetail(any(Optional.class),any(Pageable.class)))
+                .thenReturn(investmentAccounts);
+        List<AccountDTO> response = userService.getAccounts("hackethoncustomer",0);
+       // assertNotNull(response);
+        assertEquals("Monesh123",response.get(0).getAccountNumber());
+        assertEquals(8000.0,response.get(0).getBalance());
     }
 
-//
+    @Test
+    public void testInvestmentAccountsFailure() {
+        when(userRepository.findById(any(Long.class)))
+                .thenReturn(Optional.empty());
+        assertThrows(NoInvestmentAccountFoundException.class,()-> userService.getAccounts("2", 6));
+    }
+
 
 }

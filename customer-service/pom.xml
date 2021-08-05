@@ -107,7 +107,13 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-		<!-- Swagger Configuration Ends -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Swagger Configuration Ends -->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

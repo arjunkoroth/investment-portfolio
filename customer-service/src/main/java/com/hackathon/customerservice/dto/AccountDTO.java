@@ -7,13 +7,6 @@ import lombok.Data;
 @Builder
 public class AccountDTO {
 
-	/**
-	 * 
-	 */
 	private String accountNumber;
-	
-	/**
-	 * 
-	 */
 	private Double balance;
 }
