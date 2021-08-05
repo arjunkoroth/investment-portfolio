@@ -1,5 +1,6 @@
 package com.hackathon.customerservice.security;
 
+import com.hackathon.customerservice.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,8 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.hackathon.customerservice.service.UserService;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -27,7 +26,7 @@ import com.hackathon.customerservice.service.UserService;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired
-	private UserService loginService;
+	private UserServiceImpl loginService;
 	
 	@Autowired
 	private JwtTokenUtil tokenUtil;

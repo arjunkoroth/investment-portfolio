@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hackathon.customerservice.service;
 
 import java.util.List;

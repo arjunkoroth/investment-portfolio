@@ -1,7 +1,7 @@
 package com.hackathon.customerservice.controllers;
 
 
-import com.hackathon.customerservice.service.UserService;
+import com.hackathon.customerservice.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,7 +14,7 @@ public class CustomerControllerTest {
     @InjectMocks
     private CustomerController userController;
     @Mock
-    private UserService userService;
+    private UserServiceImpl userService;
 
 
     @Test
