@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,5 +28,6 @@ public class InvestmentAccount {
 	private Double balance;
 
 	@ManyToOne()
+	@JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
 	private UserDetail userDetail;
 }
