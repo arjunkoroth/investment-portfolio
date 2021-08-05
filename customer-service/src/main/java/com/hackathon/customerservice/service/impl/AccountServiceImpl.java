@@ -16,6 +16,7 @@ import com.hackathon.customerservice.dto.StockDTO;
 import com.hackathon.customerservice.dto.StockDetailsDTO;
 import com.hackathon.customerservice.entity.InvestmentAccount;
 import com.hackathon.customerservice.entity.PortfolioDetail;
+import com.hackathon.customerservice.exceptions.InvalidCredentialsException;
 import com.hackathon.customerservice.exceptions.StockNotFoundException;
 import com.hackathon.customerservice.repository.InvestmentAccountRepository;
 import com.hackathon.customerservice.repository.PortfolioDetailRepository;
@@ -60,28 +61,31 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	public PortfolioDetails getPortfolio(Optional<String> accountNumber) {
 		List<StockDetailsDTO> stocks = new ArrayList<>();
+		PortfolioDetails result = PortfolioDetails.builder().balance(50000.0).build();
 		if (log.isDebugEnabled()) {
 			log.debug("Getting portfolio or account number {}", accountNumber);
 		}
 		Optional<InvestmentAccount> investmentAccount = investmentAccountRepository
-				.findByAccountNumber(accountNumber.get());
-		Double totalPortfolioValue = new Double(0);
+				.findByAccountNumber(accountNumber.get());	
 		if (investmentAccount.isPresent()) {
 			List<PortfolioDetail> portfolios = portfolioRepository.findByInvestementAccount(investmentAccount.get());
 			if (Optional.ofNullable(portfolios).isPresent()) {
-				portfolios.forEach((portfolio) -> {
+				portfolios.forEach(portfolio -> {
 					double currentStockPrice = getStockPrice(portfolio.getStockCode());
 					double value = portfolio.getQuantity() * currentStockPrice;
-				// totalPortfolioValue = totalPortfolioValue + value;
+				    double total = result.getTotalPortfolioValue() + value;
+				    result.setTotalPortfolioValue(total);
 					stocks.add(mapToStockDto(portfolio.getStockCode(), portfolio.getQuantity(), value));
 				});
 			}
-
+		}else {
+			throw new InvalidCredentialsException("User don't have permission to acccess this account.");
 		}
-		return PortfolioDetails.builder().totalPortfolioValue(totalPortfolioValue).balance(50000.0).stockDetails(stocks)
-				.build();
+		return result;
 	}
 
+	
+	
 	private Double getStockPrice(String stockCode) {
 		Double result = Double.valueOf(0.00);
 		try {
