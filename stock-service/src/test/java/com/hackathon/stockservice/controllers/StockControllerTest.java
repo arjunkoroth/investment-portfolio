@@ -1,6 +1,6 @@
 package com.hackathon.stockservice.controllers;
 
-import com.hackathon.stockservice.service.StockService;
+import com.hackathon.stockservice.service.StockServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,7 +12,7 @@ public class StockControllerTest {
     @InjectMocks
     private StockController controller;
     @Mock
-    private StockService service;
+    private StockServiceImpl service;
 
     @Test
     public void test(){

@@ -8,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Builder
 @Data
 @Entity
@@ -21,4 +23,10 @@ public class StockDetail {
 
     @Column(name = "stock_code")
     private String stockCode;
+
+	public StockDetail(long id, String stockCode) {
+		super();
+		this.id = id;
+		this.stockCode = stockCode;
+	}
 }
