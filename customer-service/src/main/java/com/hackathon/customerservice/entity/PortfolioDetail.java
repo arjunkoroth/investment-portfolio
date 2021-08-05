@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -20,14 +22,14 @@ public class PortfolioDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	
 	@Column(name = "stock_code")
 	private String stockCode;
 	
 	@Column(name = "quantity")
-	private String quantity;
+	private Integer quantity;
 	
-	@Column(name = "account_number")
+	@ManyToOne
+	@JoinColumn(name = "account_number", referencedColumnName = "account_number")
 	private InvestmentAccount investementAccount;
 	
 }

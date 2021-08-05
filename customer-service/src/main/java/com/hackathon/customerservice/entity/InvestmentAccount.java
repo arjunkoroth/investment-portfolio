@@ -14,15 +14,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Data
 @Entity
-@Table(name = "investement_account")
+@Table(name = "investment_account")
 public class InvestmentAccount {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
 	@Column(name = "account_number")
 	private String accountNumber;
+	
 	@Column(name = "balance")
-	private String balance;
+	private Double balance;
 
 	@ManyToOne()
 	private UserDetail userDetail;

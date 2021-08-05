@@ -1,16 +1,15 @@
 package com.hackathon.customerservice.entity;
 
-import javax.persistence.Table;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +24,9 @@ public class OrderDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(name="portfolio_id")
 	@ManyToOne
-	private PortfolioDetail portfolioId;
+	@JoinColumn(name = "portfolio_id", referencedColumnName = "id")
+	private PortfolioDetail portfolioDetail;
 	
 	@Column(name="stock_code")
 	private String stockCode;
@@ -35,10 +34,12 @@ public class OrderDetail {
 	@Column(name="stock_price")
 	private Double stockPrice;
 	
-	@Column(name="purccased_on")
-	private Date purchasedOn;
+	@Column(name="purchased_on")
+	private LocalDate purchasedOn;
 	
-	private Integer quanitity;
+	@Column(name="quantity")
+	private Integer quantity;
 	
+	@Column(name="total_price")
 	private Double totalPrice;
 }
