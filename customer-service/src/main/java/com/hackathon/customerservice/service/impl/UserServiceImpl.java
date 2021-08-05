@@ -3,6 +3,7 @@ package com.hackathon.customerservice.service.impl;
 import com.hackathon.customerservice.client.StockServiceProxy;
 import com.hackathon.customerservice.dto.OrderRequestDto;
 import com.hackathon.customerservice.dto.OrderResponseDto;
+import com.hackathon.customerservice.dto.StockDTO;
 import com.hackathon.customerservice.entity.InvestmentAccount;
 import com.hackathon.customerservice.entity.OrderDetail;
 import com.hackathon.customerservice.entity.PortfolioDetail;
@@ -66,8 +67,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		InvestmentAccount account = null;
 		if(investmentAccount.isPresent())
 			account = investmentAccount.get();
-		double price = serviceProxy.getStockPrice(orderRequestDto.getStockCode());
-		double totalPrice = (double)orderRequestDto.getNumberOfStocks()*price;
+		StockDTO stockDTO = serviceProxy.getStrockPrice(Optional.of(orderRequestDto.getStockCode()));
+		double totalPrice = (double)orderRequestDto.getNumberOfStocks()*stockDTO.getPrice();
 		if(account.getBalance() < totalPrice)
 			throw new InsufficientBalanceException(INSUFFICIENT_BALANCE.getErrorMessage());
 		Optional<PortfolioDetail> portfolioDetail = portfolioDetailRepository.findByInvestementAccount(account);
@@ -76,7 +77,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			detail = portfolioDetail.get();
 		OrderDetail orderDetail = OrderDetail.builder()
 				.quantity(orderRequestDto.getNumberOfStocks())
-				.stockPrice(price)
+				.stockPrice(stockDTO.getPrice())
 				.totalPrice(totalPrice)
 				.purchasedOn(LocalDate.now())
 				.stockCode(orderRequestDto.getStockCode())
