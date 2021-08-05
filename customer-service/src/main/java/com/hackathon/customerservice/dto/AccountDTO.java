@@ -15,5 +15,5 @@ public class AccountDTO {
 	/**
 	 * 
 	 */
-	private String balance;
+	private Double balance;
 }
