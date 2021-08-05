@@ -60,7 +60,7 @@ public class UserService implements UserDetailsService {
 	private StockServiceProxy serviceProxy;
 
 	@Autowired
-	private OrderDetailRepository orderDetailRepository;
+	private final OrderDetailRepository orderDetailRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {
@@ -81,7 +81,7 @@ public class UserService implements UserDetailsService {
 		InvestmentAccount account = null;
 		if(investmentAccount.isPresent())
 			account = investmentAccount.get();
-		StockDTO stockDTO = serviceProxy.getStrockPrice(Optional.of(orderRequestDto.getStockCode()));
+		StockDTO stockDTO = serviceProxy.getStrockPrice(orderRequestDto.getStockCode());
 		double totalPrice = (double)orderRequestDto.getNumberOfStocks()*stockDTO.getPrice();
 		if(account.getBalance() < totalPrice)
 			throw new InsufficientBalanceException(INSUFFICIENT_BALANCE.getErrorMessage());

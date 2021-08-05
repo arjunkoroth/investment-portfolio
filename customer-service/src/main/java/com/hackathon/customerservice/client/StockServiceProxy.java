@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-@FeignClient(name = "http://STOCK-SERVICE/stock-service")
+@FeignClient(name = "http://STOCK-SERVICE/api/v1/stocks")
 public interface StockServiceProxy {
 
     @GetMapping("/{stockCode}")
-    public StockDTO getStrockPrice(@PathVariable("stockCode") @NotNull Optional<String> stockCode);
+    public StockDTO getStrockPrice(@PathVariable("stockCode") @NotNull String stockCode);
 
 }
