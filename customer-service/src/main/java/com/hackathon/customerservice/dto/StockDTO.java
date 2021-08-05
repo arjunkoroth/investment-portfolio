@@ -13,4 +13,12 @@ import lombok.Data;
 public class StockDTO {
 	private String stockCode;
 	private Double stockPrice;
+	public StockDTO(String stockCode, Double stockPrice) {
+		super();
+		this.stockCode = stockCode;
+		this.stockPrice = stockPrice;
+	}
+	public StockDTO() {
+		super();		
+	}	
 }

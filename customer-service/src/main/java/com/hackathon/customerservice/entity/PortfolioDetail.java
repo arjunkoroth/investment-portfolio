@@ -28,7 +28,7 @@ public class PortfolioDetail {
 	@Column(name = "quantity")
 	private Integer quantity;
 
-	@Column(name = "portfolio_id")
+	@Column(name = "portfolio_id", unique=false)
 	private String portfolioId;
 	
 	@ManyToOne

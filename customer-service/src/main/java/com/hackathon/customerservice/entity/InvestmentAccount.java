@@ -1,5 +1,7 @@
 package com.hackathon.customerservice.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +18,13 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity
 @Table(name = "investment_account")
-public class InvestmentAccount {
+public class InvestmentAccount implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
