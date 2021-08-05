@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,16 +41,17 @@ class UserServiceTest {
     	UserDetail userDetail = UserDetail.builder()
     			.id(1).customerId("mockcustomerid").password("Hackethon@123#").userRole(userRole)
     			.build();
-    	List<UserDetail> list = Arrays.asList(userDetail);
-    	when(userRepository.findByCustomerId("mockcustomerid")).thenReturn(list);
+    	Optional<UserDetail> user = Optional.of(userDetail);
+    	when(userRepository.findByCustomerId("mockcustomerid")).thenReturn(user);
     	UserDetails expectedUser = userService.loadUserByUsername("mockcustomerid");
-    	assertEquals(expectedUser.getUsername(), list.stream().map(UserDetail::getCustomerId).findFirst().get());
+    	assertEquals(expectedUser.getUsername(), user.get().getCustomerId());
     }
     
     @Test
     void testLoginUsingCustomerId_Exception() {
-    	List<UserDetail> list = new ArrayList<>();
-    	when(userRepository.findByCustomerId("mockcustomerid")).thenReturn(list);
-    	assertThrows(InvalidCredentialsException.class, ()-> userService.loadUserByUsername("mockcustomerid"));
+    	Optional<UserDetail> user = Optional.ofNullable(null);
+    	when(userRepository.findByCustomerId("mockcustomerid")).thenReturn(user);
+    	if(!user.isPresent())
+    		assertThrows(InvalidCredentialsException.class, ()-> userService.loadUserByUsername("mockcustomerid"));
     }
 }
