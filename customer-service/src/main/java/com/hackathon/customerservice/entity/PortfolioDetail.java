@@ -27,6 +27,9 @@ public class PortfolioDetail {
 	
 	@Column(name = "quantity")
 	private Integer quantity;
+
+	@Column(name = "portfolio_id")
+	private String portfolioId;
 	
 	@ManyToOne
 	@JoinColumn(name = "account_number", referencedColumnName = "account_number")
