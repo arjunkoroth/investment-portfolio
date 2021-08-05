@@ -1,9 +1,11 @@
 package com.hackathon.customerservice.util;
 
-import com.hackathon.customerservice.exceptions.ErrorDto;
-import com.hackathon.customerservice.exceptions.FieldErrorDto;
-import com.hackathon.customerservice.exceptions.InvalidCredentialsException;
-import feign.FeignException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.hackathon.customerservice.exceptions.ErrorDto;
+import com.hackathon.customerservice.exceptions.FieldErrorDto;
+import com.hackathon.customerservice.exceptions.InvalidCredentialsException;
+
+import feign.FeignException;
 
 @ControllerAdvice
 @RequestMapping(produces = "application/vnd.error+json")
 public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler {
-
 
     @ExceptionHandler(InvalidCredentialsException.class)
     protected ResponseEntity<ErrorDto> handle(InvalidCredentialsException ex) {
@@ -40,14 +41,9 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<FieldErrorDto> handle(ConstraintViolationException e){
-
-        List<String> errors = new ArrayList<>();
-        for (ConstraintViolation<?> error : e.getConstraintViolations()) {
-            errors.add(error.getMessage());
-        }
+        List<String> errors = e.getConstraintViolations().stream().map(ConstraintViolation<?>::getMessage).collect(Collectors.toList());
         return new ResponseEntity<>(FieldErrorDto
                 .builder()
                 .errorCode(500)
@@ -55,6 +51,7 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
                 .errors(errors)
                 .build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
     @ExceptionHandler(FeignException.class)
     protected ResponseEntity<String> handle(FeignException e){
         return new ResponseEntity<>(e.contentUTF8(), HttpStatus.INTERNAL_SERVER_ERROR);
