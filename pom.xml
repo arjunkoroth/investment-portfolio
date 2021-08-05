@@ -7,7 +7,7 @@
     <version>0.1.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>user-service</module>
+        <module>customer-service</module>
         <module>stock-service</module>
 		<module>eurekaServer</module>
 		<module>gateway</module>
