@@ -29,18 +29,9 @@ import com.hackathon.customerservice.repository.UserRepository;
 import com.hackathon.customerservice.security.INGUser;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
-import static com.hackathon.customerservice.util.Error.INCORRECT_CREDENTIALS;
 import static com.hackathon.customerservice.util.Error.INSUFFICIENT_BALANCE;
 
 @Service(value = "userService")
@@ -60,7 +51,7 @@ public class UserService implements UserDetailsService {
 	private StockServiceProxy serviceProxy;
 
 	@Autowired
-	private final OrderDetailRepository orderDetailRepository;
+	private OrderDetailRepository orderDetailRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {

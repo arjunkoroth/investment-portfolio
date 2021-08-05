@@ -49,7 +49,7 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<FieldErrorDto> handle(ConstraintViolationException e){
-        List<String> errors = e.getConstraintViolations().stream().map(ConstraintViolation<?>::getMessage).collect(Collectors.toList());
+        List<String> errors = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
         return new ResponseEntity<>(FieldErrorDto
                 .builder()
                 .errorCode(500)

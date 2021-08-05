@@ -12,11 +12,13 @@ import javax.persistence.Table;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.io.Serializable;
+
 @RequiredArgsConstructor
 @Data
 @Entity
 @Table(name = "investment_account")
-public class InvestmentAccount {
+public class InvestmentAccount implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
