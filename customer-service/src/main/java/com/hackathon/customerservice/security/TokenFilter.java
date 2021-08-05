@@ -1,7 +1,7 @@
 package com.hackathon.customerservice.security;
 
 
-import com.hackathon.customerservice.service.UserService;
+import com.hackathon.customerservice.service.impl.UserServiceImpl;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +20,9 @@ public class TokenFilter extends OncePerRequestFilter {
 
 	private JwtTokenUtil tokenUtil;
 
-	private UserService loginService;
+	private UserServiceImpl loginService;
 
-	public TokenFilter(JwtTokenUtil tokenUtil, UserService loginService) {
+	public TokenFilter(JwtTokenUtil tokenUtil, UserServiceImpl loginService) {
 		this.tokenUtil = tokenUtil;
 		this.loginService = loginService;
 	}

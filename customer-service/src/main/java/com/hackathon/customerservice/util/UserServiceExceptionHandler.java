@@ -1,5 +1,10 @@
 package com.hackathon.customerservice.util;
 
+import com.hackathon.customerservice.exceptions.ErrorDto;
+import com.hackathon.customerservice.exceptions.FieldErrorDto;
+import com.hackathon.customerservice.exceptions.InsufficientBalanceException;
+import com.hackathon.customerservice.exceptions.InvalidCredentialsException;
+import feign.FeignException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.hackathon.customerservice.exceptions.ErrorDto;
-import com.hackathon.customerservice.exceptions.FieldErrorDto;
-import com.hackathon.customerservice.exceptions.InvalidCredentialsException;
-
-import feign.FeignException;
 
 @ControllerAdvice
 @RequestMapping(produces = "application/vnd.error+json")
@@ -31,6 +31,12 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
     protected ResponseEntity<ErrorDto> handle(InvalidCredentialsException ex) {
         ErrorDto dto = new ErrorDto(401, ex.getMessage());
         return new ResponseEntity<>(dto, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    protected ResponseEntity<ErrorDto> handle(InsufficientBalanceException ex) {
+        ErrorDto dto = new ErrorDto(409, ex.getMessage());
+        return new ResponseEntity<>(dto, HttpStatus.CONFLICT);
     }
 
     @Override
@@ -51,7 +57,6 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
                 .errors(errors)
                 .build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
     @ExceptionHandler(FeignException.class)
     protected ResponseEntity<String> handle(FeignException e){
         return new ResponseEntity<>(e.contentUTF8(), HttpStatus.INTERNAL_SERVER_ERROR);
