@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
 import com.hackathon.customerservice.dto.AccountDTO;
@@ -74,7 +75,8 @@ public class AccountServiceImpl implements AccountService {
 		if (investmentAccount.isPresent()) {
 			log.debug("Getting investments for {}",investmentAccount.get().getAccountNumber());
 			List<PortfolioDetail> portfolios = portfolioRepository.findByInvestementAccount(investmentAccount.get());
-			if (!Optional.ofNullable(portfolios).isPresent()) {
+			
+			if (CollectionUtils.isEmpty(portfolios)) {
 				throw new StockNotFoundException("You have not bought any stocks");
 			} else {				
 				result = processPortfolio(portfolios);

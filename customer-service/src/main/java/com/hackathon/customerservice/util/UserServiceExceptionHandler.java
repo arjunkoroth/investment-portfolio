@@ -67,7 +67,7 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
     protected ResponseEntity<ErrorDto> handleWhileInvalidDigitCode(StockNotFoundException e){
         return new ResponseEntity<>(ErrorDto
                 .builder()
-                .errorCode(400)
+                .errorCode(404)
                 .errorMessage(e.getMessage())
                 .build(), HttpStatus.NOT_FOUND);
     }
