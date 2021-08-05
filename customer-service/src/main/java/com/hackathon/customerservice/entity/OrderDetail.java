@@ -25,7 +25,7 @@ public class OrderDetail {
 	private long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "portfolio_id", referencedColumnName = "id")
+	@JoinColumn(name = "portfolio_id", referencedColumnName = "portfolio_id")
 	private PortfolioDetail portfolioDetail;
 	
 	@Column(name="stock_code")
