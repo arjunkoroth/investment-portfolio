@@ -33,13 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDate;
 
 import static com.hackathon.customerservice.util.Error.INSUFFICIENT_BALANCE;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
-import static com.hackathon.customerservice.util.Error.INCORRECT_CREDENTIALS;
-import static com.hackathon.customerservice.util.Error.INSUFFICIENT_BALANCE;
 
 @Service(value = "userService")
 @Slf4j
@@ -54,17 +48,9 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private PortfolioDetailRepository portfolioDetailRepository;
 
-	@Autowired
-	private final InvestmentAccountRepository investmentAccountRepository;
-
-	@Autowired
-	private final PortfolioDetailRepository portfolioDetailRepository;
 
 	@Autowired
 	private StockServiceProxy serviceProxy;
-
-	@Autowired
-	private OrderDetailRepository orderDetailRepository;
 
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
@@ -82,32 +68,6 @@ public class UserService implements UserDetailsService {
 			List<SimpleGrantedAuthority> authorityList = Arrays.asList(new SimpleGrantedAuthority(userDetail.getUserRole().getRoleName()));
 			return new INGUser(userDetail.getCustomerId(), userDetail.getPassword(), userDetail.getId(), authorityList);
 		}
-	}
-	public OrderResponseDto orderstock(OrderRequestDto orderRequestDto, String accountNumber){
-		Optional<InvestmentAccount> investmentAccount = investmentAccountRepository.findByAccountNumber(accountNumber);
-		InvestmentAccount account = null;
-		if(investmentAccount.isPresent())
-			account = investmentAccount.get();
-		StockDTO stockDTO = serviceProxy.getStrockPrice(Optional.of(orderRequestDto.getStockCode()));
-		double totalPrice = (double)orderRequestDto.getNumberOfStocks()*stockDTO.getPrice();
-		if(account.getBalance() < totalPrice)
-			throw new InsufficientBalanceException(INSUFFICIENT_BALANCE.getErrorMessage());
-		Optional<PortfolioDetail> portfolioDetail = portfolioDetailRepository.findByInvestementAccount(account);
-		PortfolioDetail detail = null;
-		if(portfolioDetail.isPresent())
-			detail = portfolioDetail.get();
-		OrderDetail orderDetail = OrderDetail.builder()
-				.quantity(orderRequestDto.getNumberOfStocks())
-				.stockPrice(stockDTO.getPrice())
-				.totalPrice(totalPrice)
-				.purchasedOn(LocalDate.now())
-				.stockCode(orderRequestDto.getStockCode())
-				.portfolioDetail(detail).build();
-		orderDetailRepository.save(orderDetail);
-		return OrderResponseDto.builder()
-				.statusCode(201)
-				.message("You have bought the stocks").build();
-
 	}
 	public OrderResponseDto orderstock(OrderRequestDto orderRequestDto, String accountNumber){
 		Optional<InvestmentAccount> investmentAccount = investmentAccountRepository.findByAccountNumber(accountNumber);
@@ -135,5 +95,6 @@ public class UserService implements UserDetailsService {
 				.message("You have bought the stocks").build();
 
 	}
+	
 
 }
