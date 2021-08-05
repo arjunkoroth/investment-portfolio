@@ -9,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest
-public class UserControllerTest {
+public class CustomerControllerTest {
 
     @InjectMocks
-    private UserController userController;
+    private CustomerController userController;
     @Mock
     private UserService userService;
 
