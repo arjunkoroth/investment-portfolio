@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity
 @Table(name = "investment_account")
-public class InvestmentAccount {
+public class InvestmentAccount  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;

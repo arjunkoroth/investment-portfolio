@@ -34,7 +34,7 @@ public class CustomerControllerTest {
 
     @Test
     public void testGetFavorites(){
-        when(userService.getAccounts(any(Integer.class)))
+        when(userService.getAccounts(any(String.class),any(Integer.class)))
                 .thenReturn(buildFavoriteList());
         List<AccountDTO> response = userController.getCustomerAccounts(Optional.of(0));
         assertNotNull(response);

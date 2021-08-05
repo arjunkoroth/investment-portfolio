@@ -3,6 +3,7 @@ package com.hackathon.customerservice.util;
 import com.hackathon.customerservice.exceptions.ErrorDto;
 import com.hackathon.customerservice.exceptions.FieldErrorDto;
 import com.hackathon.customerservice.exceptions.InvalidCredentialsException;
+import com.hackathon.customerservice.exceptions.NoInvestmentAccountFoundException;
 import feign.FeignException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,18 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
                 .errors(errors)
                 .build(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(NoInvestmentAccountFoundException.class)
+    protected ResponseEntity<ErrorDto> handleWhileNoInvestmentAccountFound(NoInvestmentAccountFoundException e){
+
+        return new ResponseEntity<>(ErrorDto
+                .builder()
+                .errorCode(404)
+                .errorMessage(e.getMessage())
+                .build(), HttpStatus.NOT_FOUND);
+    }
+
+
     @ExceptionHandler(FeignException.class)
     protected ResponseEntity<String> handle(FeignException e){
         return new ResponseEntity<>(e.contentUTF8(), HttpStatus.INTERNAL_SERVER_ERROR);

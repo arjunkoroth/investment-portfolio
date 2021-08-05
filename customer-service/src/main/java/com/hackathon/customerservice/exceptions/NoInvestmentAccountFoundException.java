@@ -1,13 +1,13 @@
 package com.hackathon.customerservice.exceptions;
 
-public class NoInvestmentAccountFound extends RuntimeException{
+public class NoInvestmentAccountFoundException extends RuntimeException{
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public NoInvestmentAccountFound(String message) {
+	public NoInvestmentAccountFoundException(String message) {
 		super(message);
 	}
 
