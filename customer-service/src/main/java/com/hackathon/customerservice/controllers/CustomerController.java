@@ -2,6 +2,7 @@ package com.hackathon.customerservice.controllers;
 
 import java.awt.print.Book;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +39,12 @@ public class CustomerController {
 		return accountService.getAccounts("");
 	}
 	
+	@ApiOperation(value = "Get portfolio details of a account.", response = Book.class)
+	@ApiResponses({ @ApiResponse(code = 200, message = "Successfull operation", response = AccountDTO.class),
+					@ApiResponse(code = 404, message = "Account Not Found", response = FieldErrorDto.class) })
 	@GetMapping("/{accountNumber}/portfolio")
-	public List<PortfolioDetails> getPortfolioDetails(@PathVariable("accountNumber") @NotNull String accountNumber){
-		return null;
+	public PortfolioDetails getPortfolioDetails(@PathVariable("accountNumber") @NotNull String accountNumber){
+		return accountService.getPortfolio(Optional.of(accountNumber));
 	}
 
 }
