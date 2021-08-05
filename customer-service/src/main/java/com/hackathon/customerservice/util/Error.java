@@ -8,7 +8,8 @@ import lombok.ToString;
 @ToString
 @Getter
 public enum Error {
-    NOT_FOUND(404,"Not found");
+    NOT_FOUND(404,"Not found"),
+    INCORRECT_CREDENTIALS(401, "Incorrect username or password");
 
     private final int errorCode;
     private final String errorMessage;
