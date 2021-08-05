@@ -37,7 +37,6 @@ public class StockServiceImpl implements StockService {
 	 * 
 	 * @see com.hackathon.stockservice.service.StockService#getStockPrice(int)
 	 */
-	@Override
 	public StockDTO getStockPrice(Optional<String> stockCode) {
 		log.debug("Getting stock price for {}", stockCode);
 		StockDTO stockDTO = null;

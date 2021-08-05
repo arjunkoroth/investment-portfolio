@@ -1,6 +1,6 @@
 package com.hackathon.customerservice.security;
 
-import com.hackathon.customerservice.service.impl.UserServiceImpl;
+import com.hackathon.customerservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired
-	private UserServiceImpl loginService;
+	private UserService loginService;
 	
 	@Autowired
 	private JwtTokenUtil tokenUtil;

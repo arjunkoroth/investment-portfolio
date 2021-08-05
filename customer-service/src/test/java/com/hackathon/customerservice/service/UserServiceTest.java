@@ -10,7 +10,6 @@ import com.hackathon.customerservice.repository.InvestmentAccountRepository;
 import com.hackathon.customerservice.repository.OrderDetailRepository;
 import com.hackathon.customerservice.repository.PortfolioDetailRepository;
 import com.hackathon.customerservice.repository.UserRepository;
-import com.hackathon.customerservice.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -28,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     @InjectMocks
-    private UserServiceImpl userService;
+    private UserService userService;
     @Mock
     private UserRepository userRepository;
     @Mock
