@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.hackathon.customerservice.exceptions.ErrorDto;
 import com.hackathon.customerservice.exceptions.FieldErrorDto;
 import com.hackathon.customerservice.exceptions.InvalidCredentialsException;
+import com.hackathon.customerservice.exceptions.StockNotFoundException;
 
 import feign.FeignException;
 
@@ -55,5 +56,19 @@ public class UserServiceExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler(FeignException.class)
     protected ResponseEntity<String> handle(FeignException e){
         return new ResponseEntity<>(e.contentUTF8(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    
+    /**
+	 * Exception handler if the stock code passed is not present.
+	 * @param e
+	 * @return
+	 */
+    @ExceptionHandler(StockNotFoundException.class)
+    protected ResponseEntity<ErrorDto> handleWhileInvalidDigitCode(StockNotFoundException e){
+        return new ResponseEntity<>(ErrorDto
+                .builder()
+                .errorCode(404)
+                .errorMessage(e.getMessage())
+                .build(), HttpStatus.NOT_FOUND);
     }
 }

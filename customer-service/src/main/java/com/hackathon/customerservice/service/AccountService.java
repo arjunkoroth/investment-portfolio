@@ -19,15 +19,17 @@ public interface AccountService {
 
 	/**
 	 * This method will return the number of investment account.
+	 * 
 	 * @param customerId
 	 * @return
 	 */
 	public List<AccountDTO> getAccounts(String customerId);
-	
+
 	/**
 	 * Returns portfolio details for a provided account.
+	 * 
 	 * @param accountNumber
 	 * @return
 	 */
-	public PortfolioDetails getPortfolio(Optional<String> accountNumber);
+	public PortfolioDetails getPortfolio(String customerId, Optional<String> accountNumber);
 }
